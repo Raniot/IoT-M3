@@ -1,11 +1,11 @@
 var mqtt = require('mqtt');
 var config = require('./config.json'); 
-resources = require('./resources/model');
 
 var thngId=config.thngId; 
 var thngUrl='/thngs/'+thngId;
 var thngApiKey=config.thngApiKey;
 
+resources = require('./resources/model');
 var pirModel = resources.pi.sensors.pir;
 var tempModel = resources.pi.sensors.temperature;
 var humiModel = resources.pi.sensors.humidity;
@@ -13,7 +13,6 @@ var led1Model = resources.pi.actuators.leds['1'];
 var led2Model = resources.pi.actuators.leds['2'];
 
 var status=false;
-var updateInterval;
 
 var client = mqtt.connect("mqtts://mqtt.evrythng.com:8883", {
   username: 'authorization',
@@ -24,19 +23,18 @@ client.on('connect', function () {
   client.subscribe(thngUrl+'/properties/');
   client.subscribe(thngUrl+'/actions/all'); // #A
   updateProperty('livenow',true);
-  // if (! updateInterval) updateInterval = setInterval(updateProperties, 5000);
 
   resources.observe(changes => {
     changes.forEach(change => {
-      // if(checkModel(pirModel,change)){
-      //   updateProperty ('pir',change.value);
-      // }
-      // else if(checkModel(tempModel,change)){
-      //   updateProperty ('temp',change.value);
-      // }
-      // else if(checkModel(humiModel,change)){
-      //   updateProperty ('humi',change.value);
-      // }
+      if(checkModel(pirModel,change)){
+        updateProperty ('pir',change.value);
+      }
+      else if(checkModel(tempModel,change)){
+        updateProperty ('temp',change.value);
+      }
+      else if(checkModel(humiModel,change)){
+        updateProperty ('humi',change.value);
+      }
       // else if(checkModel(led1Model,change)){
       //   updateProperty ('led1',change.value);
       // }
@@ -52,26 +50,26 @@ function checkModel(model, change){
   return false;
 }
 
+
 client.on('message', function(topic, message) {
-  var resources = topic.split('/');
-  if (resources[1] && resources[1] === "thngs"){ // #B
-    if (resources[2] && resources[2] === thngId){  // #C
-      if (resources[3] && resources[3] === "properties"){ //#D
+  var splittedTopic = topic.split('/');
+  if (splittedTopic[1] && splittedTopic[1] === "thngs"){ // #B
+    if (splittedTopic[2] && splittedTopic[2] === thngId){  // #C
+      if (splittedTopic[3] && splittedTopic[3] === "properties"){ //#D
         var property = JSON.parse(message);
         console.log('Property was updated: '+property[0].key+'='+property[0].value); 
-      } else if (resources[3] && resources[3] === "actions"){ //#E
+      } else if (splittedTopic[3] && splittedTopic[3] === "actions"){ //#E
         var action = JSON.parse(message);
         handleAction(action); 
       }
     }
   }
-  // if(property[0].key == "led1"){
-  //   resources.actuators.leds['1'] = property[0].value;
-  // }
-  // else if(property[0].key == "led2"){
-  //   resources.actuators.leds['2'] = property[0].value;
-  // }
-
+  if(property[0].key == "led1"){
+    resources.pi.actuators.leds['1'].value = property[0].value;
+  }
+  else if(property[0].key == "led2"){
+    resources.pi.actuators.leds['2'].value = property[0].value;
+  }
 });
 
 function handleAction(action) {
@@ -120,7 +118,6 @@ function updateProperty(property,value) {
 
 process.on('SIGINT', function() { 
   updateProperty('livenow',false);
-  clearInterval(updateInterval);
 	client.end();
   process.exit();
 });
