@@ -32,7 +32,8 @@
     "msgpack5": "^4.2.0",
     "node-json2html": "*",
     "ws": "^6.0.0",
-    "object-observer": "^1.0.1"
+    "object-observer": "^1.0.1",
+    "mqtt": "^1.5.0"
   },
   "optionalDependencies": {
     "onoff": "*",

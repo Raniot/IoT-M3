@@ -28,8 +28,8 @@ exports.listen = function(server) {
         else if(checkModel(led2Model,change)){
           ws.send(JSON.stringify("Led2: " +  change.value), function () {});
         }
+      });
     });
-  });
   });
 };
 
