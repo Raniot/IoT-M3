@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<p id="pir">No Pir value yet!</p>
+<p id="temp">No temperature measurement yet!</p>
+<p id="humi">No humidity measurement yet!</p>
+<p id="led1">Led hasn't changed value yet</p>
+<p id="led2">Led hasn't changed value yet</p>
+
+<input type="Button" value="Turn on led 1" onclick="TurnLEDOn(1)"/> 
+<input type="Button" value="Turn off led 1" onclick="TurnLEDOff(1)"/>
+<br/>
+<input type="Button" value="Turn on led 2" onclick="TurnLEDOn(2)"/> 
+<input type="Button" value="Turn off led 2" onclick="TurnLEDOff(2)"/>
+
+<body>
+<script>
+    function subscribeToWs(url, msg) {
+        var socket = new WebSocket(url);
+
+        socket.onmessage = function (event) {
+            eventString = event.data + "";
+            console.log(eventString);
+            if(eventString.includes("Pir"))
+                document.getElementById("pir").innerHTML = eventString;
+            if(eventString.includes("Temp"))
+                document.getElementById("temp").innerHTML = eventString;
+            if(eventString.includes("Humi"))
+                document.getElementById("humi").innerHTML = eventString;
+        };
+        socket.onerror = function (error) {
+            console.log('An error occurred while trying to connect to a Websocket!');
+            console.log(error);
+        };
+        socket.onopen = function (event) {
+            console.log("Started Socket event" + event.data);
+            if (msg) {
+                socket.send(msg);
+            }
+        };
+    }
+    var subscribeUrl = 'ws://' + window.location.hostname + ':' + window.location.port + '/pi'
+    console.log('Subscribing to: ' + subscribeUrl)
+    subscribeToWs(subscribeUrl);
+    
+    function TurnLEDOn(id) {
+        var xhr = new XMLHttpRequest(); 
+        xhr.open("PUT", "/pi/actuators/leds/" + id, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({value: true}));
+    } 
+    
+    function TurnLEDOff(id) {
+        var xhr = new XMLHttpRequest(); 
+        xhr.open("PUT", "/pi/actuators/leds/" + id, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({value: false}));
+    }
+
+</script>
+</body>
+</html>
