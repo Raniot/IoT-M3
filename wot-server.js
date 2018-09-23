@@ -6,20 +6,19 @@ require('./plug-with-control')
 
 
 // Internal Plugins
-var ledsPlugin = require('./plugins/internal/ledsPlugin'), //#A
-  pirPlugin = require('./plugins/internal/pirPlugin'), //#A
-  dhtPlugin = require('./plugins/internal/DHT22SensorPlugin'); //#A
+var ledsPlugin = require('./plugins/internal/ledsPlugin'),
+  pirPlugin = require('./plugins/internal/pirPlugin'),
+  dhtPlugin = require('./plugins/internal/DHT22SensorPlugin');
 
 // Internal Plugins for sensors/actuators connected to the PI GPIOs
 // If you test this with real sensors do not forget to set simulate to 'false'
-// var simulate = process.env.SIMULATE == "false" ? false : true;
+var simulate = process.env.SIMULATE == "false" ? false : true;
 // ToDo COMMENT IN!!!!!!!!!!
-var simulate = true;
 console.log('Simulation set to: ' + simulate);
 
-pirPlugin.start({'simulate': simulate, 'frequency': 2000}); //#B
-ledsPlugin.start({'simulate': simulate, 'frequency': 10000}); //#B
-dhtPlugin.start({'simulate': simulate, 'frequency': 10000}); //#B
+pirPlugin.start({'simulate': simulate, 'frequency': 2000});
+ledsPlugin.start({'simulate': simulate, 'frequency': 10000});
+dhtPlugin.start({'simulate': simulate, 'frequency': 10000});
 
 
 // HTTP Server

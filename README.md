@@ -4,7 +4,7 @@ This is the third Milestone assigment in the course "E18 - Building the Internet
 
 ## How is the image build?
 An automatic build pipeline has been setup, which builds the image on a raspberry Pi and push it to Docker Hub.
-The image of this repo is pushed to: https://hub.docker.com/r/raniot/inspectingadjusting
+The image of this repo is pushed to: https://hub.docker.com/r/raniot/storingretrieving
 
 #### Requirements:
 - A raspberry pi with docker installed
@@ -17,14 +17,16 @@ The wiring is setup using the text in the image, so the components are getting t
 ![alt text](https://github.com/Raniot/IoT-M2/blob/master/img/RaspberryGPIOSetup.png "Raspberry GPIO Setup")
 
 #### To run the image run: 
-- docker pull raniot/inspectingadjusting:latest
-- docker run -p 3000:3000 raniot/inspectingadjusting:latest
-- Access http://localhost:3000
-- Access web page http://localhost:3000/web
+- docker pull raniot/storingretrieving:latest
+- docker run --privileged --env SIMULATE=true raniot/storingretrieving:latest (SIMULATE's default value is true set to false for run on rpi)
+- Access https://raniot.github.io/?key=gImsuBhfnK8yITBIc7aUMv4b3nTWnloMpdI4B4ykNiZMqhTW5AUR7bFtl6xUc7iiEFc4y9FSJWvRASGD&thngId=U5HdPyHe42EQMeRwRkTFKFbd
 
-#### To see the site on a raspberry:
-http://89.150.134.103:3001 (The site is using the simulation values described in the book).
-Access the Web page on http://89.150.134.103:3001/web
+#### To see the exposed site:
+https://raniot.github.io/?key=gImsuBhfnK8yITBIc7aUMv4b3nTWnloMpdI4B4ykNiZMqhTW5AUR7bFtl6xUc7iiEFc4y9FSJWvRASGD&thngId=U5HdPyHe42EQMeRwRkTFKFbd
+
+OBS: Lets hope no one abuse these keys before it has been tested :Deadline
+Eveythng have an idea that they should lock our account whenever we use their service to much in a day, this has happende 2 times while setting it up. Lets hope, when we are no longer using simulations this will not be a problem.
+
 
 ## Milestone Description
 ### Milestone 3: Storing & Retrieving
