@@ -24,7 +24,8 @@ The wiring is setup using the text in the image, so the components are getting t
 #### To see the exposed site:
 https://raniot.github.io/?key=gImsuBhfnK8yITBIc7aUMv4b3nTWnloMpdI4B4ykNiZMqhTW5AUR7bFtl6xUc7iiEFc4y9FSJWvRASGD&thngId=U5HdPyHe42EQMeRwRkTFKFbd
 
-OBS: Lets hope no one abuse these keys before it has been tested :Deadline
+OBS: Lets hope no one abuse these keys before it has been tested :D
+
 Eveythng have an idea that they should lock our account whenever we use their service to much in a day, this has happende 2 times while setting it up. Lets hope, when we are no longer using simulations this will not be a problem.
 
 
