@@ -28,6 +28,7 @@ OBS: Lets hope no one abuse these keys before it has been tested :D
 
 Eveythng have an idea that they should lock our account whenever we use their service to much in a day, this has happende 2 times while setting it up. Lets hope, when we are no longer using simulations this will not be a problem.
 
+## OBS: We have decided to turn off our Raspberry service, since it uses all the "free" calls in a few hours, that way you would not be able to see our site in action, since all you would be getting would be a 403, please forgive us :)
 
 ## Milestone Description
 ### Milestone 3: Storing & Retrieving
